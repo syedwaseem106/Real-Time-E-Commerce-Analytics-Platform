@@ -34,7 +34,8 @@
 
 ## 🏗️ Pipeline Architecture
 
-![Pipeline Architecture](assets/pipeline.png)
+![Pipeline Architecture](<img width="712" height="643" alt="Screenshot 2026-05-24 175154" src="https://github.com/user-attachments/assets/c37c9757-76bf-4276-b170-416708b5408c" />
+)
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
@@ -677,6 +678,8 @@ real-time-ecommerce-analytics/
 ---
 
 ## 📈 BI Report Exports
+<img width="716" height="577" alt="Screenshot 2026-05-24 173836" src="https://github.com/user-attachments/assets/7a43db9f-4bfa-46f2-92ee-475d0ad37181" />
+
 
 After `run_pipeline.sh` completes, Power BI / Tableau-ready CSVs land in `data/exports/`:
 
