@@ -161,16 +161,6 @@ Builds all custom Docker images and spins up Zookeeper, Kafka, MinIO, Spark, Pos
 ```
 Launches Structured Streaming, generates clickstream traffic, runs Spark batch deduplication, executes dbt builds, loads surrogate fact keys into PostgreSQL, and exports all 7 BI reports to `data/exports/`.
 
-### 4. Access running services
-
-| Service | URL | Credentials |
-|:--|:--|:--|
-| 🌬️ Airflow UI | http://localhost:8080 | `airflow` / `airflow` |
-| 🪣 MinIO Console | http://localhost:9001 | `minioadmin` / `minioadmin` |
-| ⚡ Spark UI | http://localhost:4040 | — |
-| 🐘 pgAdmin | http://localhost:5050 | `admin@admin.com` / `admin` |
-
----
 
 ## 📁 Project Structure
 
