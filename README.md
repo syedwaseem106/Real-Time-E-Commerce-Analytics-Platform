@@ -1,9 +1,5 @@
 <div align="center">
-## 📊 Dashboard Preview
-Real-Time E-Commerce Analytics Live pipeline
-Syed Waseem · 2026
-Kafka · PySpark · Airflow · dbt · PostgreSQL · MinIO · Docker
-<a href="https://linkedin.com/in/syed-waseem-i-b61132216">LinkedIn</a>
+
 # ⚡ Real-Time E-Commerce Analytics Platform
 
 <p align="center">
@@ -16,6 +12,344 @@ Kafka · PySpark · Airflow · dbt · PostgreSQL · MinIO · Docker
   <img src="https://img.shields.io/badge/MinIO-S3_Compatible-C72E49?style=for-the-badge&logo=minio&logoColor=white"/>
   <img src="https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
 </p>
+
+## 📊 Dashboard Preview
+Real-Time E-Commerce Analytics Live pipeline
+Syed Waseem · 2026
+Kafka · PySpark
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.header{padding:1.5rem 1.5rem 1rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.badge{display:inline-block;font-size:11px;padding:3px 8px;border-radius:var(--border-radius-md);background:var(--color-background-info);color:var(--color-text-info);font-weight:500;margin-left:8px}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:1rem 1.5rem}
+.metric{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.875rem 1rem}
+.metric-label{font-size:11px;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.metric-value{font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1}
+.metric-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:4px}
+.metric-up{color:var(--color-text-success)}
+.section{padding:0 1.5rem 1rem}
+.section-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;padding-top:1rem}
+.two-col{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;padding:0 1.5rem 1rem}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
+.card-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.funnel-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.funnel-label{font-size:12px;color:var(--color-text-secondary);width:90px;flex-shrink:0}
+.funnel-bar-wrap{flex:1;height:20px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden}
+.funnel-bar{height:100%;border-radius:4px;transition:width 1s ease}
+.funnel-count{font-size:12px;color:var(--color-text-secondary);width:56px;text-align:right;flex-shrink:0}
+.funnel-pct{font-size:11px;color:var(--color-text-tertiary);width:36px;text-align:right;flex-shrink:0}
+.seg-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.seg-row:last-child{border-bottom:none}
+.seg-pill{font-size:11px;padding:2px 7px;border-radius:999px;font-weight:500}
+.pill-vip{background:#EEEDFE;color:#3C3489}
+.pill-reg{background:#E1F5EE;color:#085041}
+.pill-new{background:#FAEEDA;color:#633806}
+.arch-wrap{padding:0 1.5rem 1.5rem}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px;padding:0 1.5rem 1.5rem}
+.tag{font-size:11px;padding:3px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);color:var(--color-text-secondary)}
+.nav{display:flex;gap:2px;padding:1rem 1.5rem 0}
+.nav-btn{font-size:12px;padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid transparent;color:var(--color-text-secondary);cursor:pointer;background:transparent}
+.nav-btn.active{background:var(--color-background-secondary);border-color:var(--color-border-secondary);color:var(--color-text-primary);font-weight:500}
+canvas{width:100%!important}
+</style>
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Real-Time E-Commerce Analytics Platform — project dashboard showing pipeline metrics, architecture diagram, funnel analysis, and segment breakdown</h2>
+
+<div class="header">
+  <div style="display:flex;align-items:center;justify-content:space-between">
+    <div>
+      <span style="font-size:16px;font-weight:500;color:var(--color-text-primary)">Real-Time E-Commerce Analytics</span>
+      <span class="badge">Live pipeline</span>
+    </div>
+    <span style="font-size:12px;color:var(--color-text-tertiary)">Syed Waseem · 2026</span>
+  </div>
+  <div style="margin-top:6px;font-size:12px;color:var(--color-text-secondary)">Kafka · PySpark · Airflow · dbt · PostgreSQL · MinIO · Docker</div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showTab('overview')">Overview</button>
+  <button class="nav-btn" onclick="showTab('architecture')">Architecture</button>
+  <button class="nav-btn" onclick="showTab('funnel')">Funnel & Segments</button>
+</div>
+
+<!-- OVERVIEW TAB -->
+<div id="tab-overview">
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-label">Simulated users</div>
+      <div class="metric-value">1,000</div>
+      <div class="metric-sub">VIP · Regular · New</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Events processed</div>
+      <div class="metric-value">239K+</div>
+      <div class="metric-sub metric-up">↑ streaming</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">BI reports</div>
+      <div class="metric-value">7</div>
+      <div class="metric-sub">Power BI · Tableau</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Docker services</div>
+      <div class="metric-value">6</div>
+      <div class="metric-sub">Single command</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Hourly event volume (simulated)</div>
+      <canvas id="chart-events" height="130"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">Pipeline layers</div>
+      <div style="font-size:12px;color:var(--color-text-secondary)">
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="width:8px;height:8px;border-radius:2px;background:#7F77DD;flex-shrink:0"></span>Event Generation → Kafka</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="width:8px;height:8px;border-radius:2px;background:#1D9E75;flex-shrink:0"></span>PySpark Streaming → MinIO Lake</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="width:8px;height:8px;border-radius:2px;background:#378ADD;flex-shrink:0"></span>Spark Batch → PostgreSQL</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="width:8px;height:8px;border-radius:2px;background:#D85A30;flex-shrink:0"></span>dbt transforms → Star Schema</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 0"><span style="width:8px;height:8px;border-radius:2px;background:#BA7517;flex-shrink:0"></span>Airflow DAG Orchestration</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tech stack</div>
+    <div class="tag-row" style="padding:0 0 1rem">
+      <span class="tag">Python 3.10</span><span class="tag">Apache Kafka 7.5</span><span class="tag">PySpark 3.5</span><span class="tag">Airflow 2.7</span><span class="tag">dbt Core 1.7</span><span class="tag">PostgreSQL 15</span><span class="tag">MinIO S3</span><span class="tag">Docker Compose</span><span class="tag">Parquet</span><span class="tag">SQLAlchemy</span>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE TAB -->
+<div id="tab-architecture" style="display:none;padding:1rem 1.5rem 1.5rem">
+  <svg width="100%" viewBox="0 0 640 540" role="img">
+    <title>Pipeline architecture diagram</title>
+    <desc>End-to-end data pipeline from event generation through Kafka, Spark streaming, MinIO, batch processing, dbt transforms, to BI reporting, orchestrated by Airflow.</desc>
+    <defs>
+      <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- Event Generation -->
+    <g>
+      <rect x="20" y="20" width="200" height="56" rx="8" fill="#EEEDFE" stroke="#7F77DD" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#3C3489" x="120" y="43" text-anchor="middle" dominant-baseline="central">Event Generator</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#534AB7" x="120" y="62" text-anchor="middle" dominant-baseline="central">Faker · 1,000 users · funnel weights</text>
+    </g>
+
+    <!-- Kafka -->
+    <g>
+      <rect x="260" y="20" width="180" height="56" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#085041" x="350" y="40" text-anchor="middle" dominant-baseline="central">Apache Kafka</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#0F6E56" x="350" y="58" text-anchor="middle" dominant-baseline="central">3 partitions + DLQ</text>
+    </g>
+    <line x1="220" y1="48" x2="258" y2="48" stroke="#888780" stroke-width="0.8" marker-end="url(#arr2)" fill="none"/>
+
+    <!-- PySpark Streaming -->
+    <g>
+      <rect x="20" y="130" width="200" height="56" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#0C447C" x="120" y="150" text-anchor="middle" dominant-baseline="central">PySpark Streaming</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#185FA5" x="120" y="168" text-anchor="middle" dominant-baseline="central">Schema validation · watermarking</text>
+    </g>
+    <line x1="350" y1="76" x2="350" y2="104" stroke="#888780" stroke-width="0.8" fill="none"/>
+    <line x1="350" y1="104" x2="122" y2="104" stroke="#888780" stroke-width="0.8" fill="none"/>
+    <line x1="122" y1="104" x2="122" y2="128" stroke="#888780" stroke-width="0.8" marker-end="url(#arr2)" fill="none"/>
+
+    <!-- MinIO -->
+    <g>
+      <rect x="260" y="130" width="180" height="56" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#633806" x="350" y="150" text-anchor="middle" dominant-baseline="central">MinIO Data Lake</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#854F0B" x="350" y="168" text-anchor="middle" dominant-baseline="central">Parquet · year/month/day/hour</text>
+    </g>
+    <line x1="220" y1="158" x2="258" y2="158" stroke="#888780" stroke-width="0.8" marker-end="url(#arr2)" fill="none"/>
+
+    <!-- Spark Batch -->
+    <g>
+      <rect x="20" y="240" width="200" height="56" rx="8" fill="#E6F1FB" stroke="#378ADD" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#0C447C" x="120" y="260" text-anchor="middle" dominant-baseline="central">Spark Batch</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#185FA5" x="120" y="278" text-anchor="middle" dominant-baseline="central">Dedup · JDBC load</text>
+    </g>
+    <line x1="350" y1="186" x2="350" y2="214" stroke="#888780" stroke-width="0.8" fill="none"/>
+    <line x1="350" y1="214" x2="122" y2="214" stroke="#888780" stroke-width="0.8" fill="none"/>
+    <line x1="122" y1="214" x2="122" y2="238" stroke="#888780" stroke-width="0.8" marker-end="url(#arr2)" fill="none"/>
+
+    <!-- PostgreSQL -->
+    <g>
+      <rect x="260" y="240" width="180" height="56" rx="8" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#173404" x="350" y="260" text-anchor="middle" dominant-baseline="central">PostgreSQL</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#27500A" x="350" y="278" text-anchor="middle" dominant-baseline="central">staging.stg_events</text>
+    </g>
+    <line x1="220" y1="268" x2="258" y2="268" stroke="#888780" stroke-width="0.8" marker-end="url(#arr2)" fill="none"/>
+
+    <!-- dbt -->
+    <g>
+      <rect x="20" y="350" width="200" height="56" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#4A1B0C" x="120" y="370" text-anchor="middle" dominant-baseline="central">dbt Core 1.7</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#712B13" x="120" y="388" text-anchor="middle" dominant-baseline="central">Staging · dim_* · fct_events</text>
+    </g>
+    <line x1="350" y1="296" x2="350" y2="324" stroke="#888780" stroke-width="0.8" fill="none"/>
+    <line x1="350" y1="324" x2="122" y2="324" stroke="#888780" stroke-width="0.8" fill="none"/>
+    <line x1="122" y1="324" x2="122" y2="348" stroke="#888780" stroke-width="0.8" marker-end="url(#arr2)" fill="none"/>
+
+    <!-- BI Reports -->
+    <g>
+      <rect x="260" y="350" width="180" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+      <text font-family="var(--font-sans)" font-size="13" font-weight="500" fill="#2C2C2A" x="350" y="370" text-anchor="middle" dominant-baseline="central">BI Reports</text>
+      <text font-family="var(--font-sans)" font-size="11" fill="#444441" x="350" y="388" text-anchor="middle" dominant-baseline="central">7 CSV exports · Power BI · Tableau</text>
+    </g>
+    <line x1="220" y1="378" x2="258" y2="378" stroke="#888780" stroke-width="0.8" marker-end="url(#arr2)" fill="none"/>
+
+    <!-- Airflow orchestration bracket -->
+    <rect x="470" y="20" width="150" height="390" rx="8" fill="none" stroke="#BA7517" stroke-width="0.5" stroke-dasharray="4 3"/>
+    <text font-family="var(--font-sans)" font-size="12" font-weight="500" fill="#854F0B" x="545" y="44" text-anchor="middle">Airflow DAG</text>
+    <text font-family="var(--font-sans)" font-size="11" fill="#BA7517" x="545" y="62" text-anchor="middle">Hourly · 6 stages</text>
+    <text font-family="var(--font-sans)" font-size="11" fill="#BA7517" x="545" y="78" text-anchor="middle">retry handling</text>
+
+    <!-- Airflow stage dots -->
+    <circle cx="510" cy="130" r="4" fill="#EF9F27"/>
+    <circle cx="510" cy="190" r="4" fill="#EF9F27"/>
+    <circle cx="510" cy="250" r="4" fill="#EF9F27"/>
+    <circle cx="510" cy="310" r="4" fill="#EF9F27"/>
+    <circle cx="510" cy="370" r="4" fill="#EF9F27"/>
+    <line x1="510" y1="134" x2="510" y2="186" stroke="#BA7517" stroke-width="0.5" stroke-dasharray="2 2"/>
+    <line x1="510" y1="194" x2="510" y2="246" stroke="#BA7517" stroke-width="0.5" stroke-dasharray="2 2"/>
+    <line x1="510" y1="254" x2="510" y2="306" stroke="#BA7517" stroke-width="0.5" stroke-dasharray="2 2"/>
+    <line x1="510" y1="314" x2="510" y2="366" stroke="#BA7517" stroke-width="0.5" stroke-dasharray="2 2"/>
+
+    <!-- Docker label -->
+    <rect x="20" y="460" width="420" height="32" rx="6" fill="none" stroke="#888780" stroke-width="0.5" stroke-dasharray="3 3"/>
+    <text font-family="var(--font-sans)" font-size="11" fill="#5F5E5A" x="230" y="476" text-anchor="middle" dominant-baseline="central">Docker Compose — 6 services: Zookeeper · Kafka · Spark · PostgreSQL · MinIO · Airflow</text>
+  </svg>
+</div>
+
+<!-- FUNNEL & SEGMENTS TAB -->
+<div id="tab-funnel" style="display:none">
+  <div class="two-col">
+    <div class="card" style="margin:1rem 0 0 1.5rem">
+      <div class="card-title">Conversion funnel</div>
+      <div class="funnel-row">
+        <span class="funnel-label" style="font-size:12px">Page view</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%;background:#7F77DD"></div></div>
+        <span class="funnel-count">100,000</span>
+        <span class="funnel-pct">100%</span>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label" style="font-size:12px">Add to cart</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:62%;background:#534AB7"></div></div>
+        <span class="funnel-count">62,000</span>
+        <span class="funnel-pct">62%</span>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label" style="font-size:12px">Checkout</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:31%;background:#3C3489"></div></div>
+        <span class="funnel-count">31,000</span>
+        <span class="funnel-pct">31%</span>
+      </div>
+      <div class="funnel-row">
+        <span class="funnel-label" style="font-size:12px">Purchase</span>
+        <div class="funnel-bar-wrap"><div class="funnel-bar" style="width:14%;background:#26215C"></div></div>
+        <span class="funnel-count">14,000</span>
+        <span class="funnel-pct">14%</span>
+      </div>
+      <div style="margin-top:12px">
+        <canvas id="chart-funnel" height="110"></canvas>
+      </div>
+    </div>
+    <div style="margin:1rem 1.5rem 0 0">
+      <div class="card" style="margin-bottom:10px">
+        <div class="card-title">User segments</div>
+        <div class="seg-row"><span><span class="seg-pill pill-vip">VIP</span></span><span style="font-size:13px;color:var(--color-text-secondary)">High spend · loyal</span><span style="font-size:13px;font-weight:500">~200</span></div>
+        <div class="seg-row"><span><span class="seg-pill pill-reg">Regular</span></span><span style="font-size:13px;color:var(--color-text-secondary)">Moderate activity</span><span style="font-size:13px;font-weight:500">~550</span></div>
+        <div class="seg-row"><span><span class="seg-pill pill-new">New</span></span><span style="font-size:13px;color:var(--color-text-secondary)">First-time buyers</span><span style="font-size:13px;font-weight:500">~250</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">dbt models</div>
+        <div style="font-size:12px;color:var(--color-text-secondary)">
+          <div style="padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary)">stg_events · stg_users · stg_products</div>
+          <div style="padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary)">dim_users · dim_products · dim_date</div>
+          <div style="padding:4px 0;border-bottom:0.5px solid var(--color-border-tertiary)">fct_events (SCD) · agg_user_summary</div>
+          <div style="padding:4px 0">Tests: unique · not_null · ref integrity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="height:1.5rem"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+const textColor = dark ? 'rgba(194,192,182,0.7)' : 'rgba(61,61,58,0.6)';
+const gridColor = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
+
+function showTab(name) {
+  ['overview','architecture','funnel'].forEach(t => {
+    document.getElementById('tab-'+t).style.display = t===name ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('active', ['overview','architecture','funnel'][i]===name);
+  });
+  if(name==='funnel' && !window._funnelChart) initFunnelChart();
+}
+
+const hours = Array.from({length:24},(_,i)=>i+':00');
+const evts = [420,180,90,60,110,310,780,1420,1850,2100,2340,2180,1960,2050,2200,2380,2150,1820,1540,1200,980,750,600,480];
+
+window._eventsChart = new Chart(document.getElementById('chart-events'), {
+  type:'line',
+  data:{
+    labels:hours,
+    datasets:[{
+      data:evts,
+      borderColor:'#7F77DD',
+      backgroundColor:'rgba(127,119,221,0.08)',
+      borderWidth:1.5,
+      pointRadius:0,
+      tension:0.4,
+      fill:true
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false},tooltip:{enabled:true}},
+    scales:{
+      x:{ticks:{color:textColor,font:{size:10},maxTicksLimit:8},grid:{color:gridColor}},
+      y:{ticks:{color:textColor,font:{size:10}},grid:{color:gridColor}}
+    }
+  }
+});
+
+function initFunnelChart() {
+  window._funnelChart = new Chart(document.getElementById('chart-funnel'), {
+    type:'bar',
+    data:{
+      labels:['Page view','Add to cart','Checkout','Purchase'],
+      datasets:[{
+        data:[100,62,31,14],
+        backgroundColor:['#EEEDFE','#AFA9EC','#7F77DD','#534AB7'],
+        borderColor:['#7F77DD','#7F77DD','#534AB7','#3C3489'],
+        borderWidth:0.5,
+        borderRadius:4
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:textColor,font:{size:10}},grid:{display:false}},
+        y:{ticks:{color:textColor,font:{size:10},callback:v=>v+'%'},grid:{color:gridColor},max:110}
+      }
+    }
+  });
+}
+</script>
+ · Airflow · dbt · PostgreSQL · MinIO · Docker
+[Uploading ecommerce_analytics_dashboard.html…]()
+<img width="1366" height="1222" alt="image" src="https://github.com/user-attachments/assets/088fb922-2714-4a80-a0da-445e8bfde243" />
 
 <p align="center">
   <b>Production-grade hybrid Batch + Streaming data engineering platform simulating real-world e-commerce clickstream events.</b><br/>
