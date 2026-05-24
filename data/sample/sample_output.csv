@@ -1,0 +1,8 @@
+order_date,year,month,day_of_week,is_weekend,total_orders,total_revenue,total_units_sold,unique_customers,average_order_value
+2026-05-24,2026,May,Sunday,true,84,34215.20,105,74,407.32
+2026-05-23,2026,May,Saturday,true,92,39851.50,115,81,433.17
+2026-05-22,2026,May,Friday,false,61,21405.00,82,53,350.90
+2026-05-21,2026,May,Thursday,false,58,19852.10,75,51,342.28
+2026-05-20,2026,May,Wednesday,false,70,27451.90,90,62,392.17
+2026-05-19,2026,May,Tuesday,false,65,24912.80,88,59,383.27
+2026-05-18,2026,May,Monday,false,54,18125.40,70,49,335.66
