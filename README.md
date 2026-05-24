@@ -351,6 +351,8 @@ ORDER BY funnel_stage;
 
 ## 💡 Dashboard
 <img width="716" height="577" alt="Screenshot 2026-05-24 173836" src="https://github.com/user-attachments/assets/6a83e48a-8ab9-4918-ac56-f1410c4e50c1" />
+
+
 ## 💡 Engineering Decisions
 > See [ARCHITECTURE_DECISIONS.md](ARCHITECTURE_DECISIONS.md) for full engineering rationale.
 
