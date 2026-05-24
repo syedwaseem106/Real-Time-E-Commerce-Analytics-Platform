@@ -1,5 +1,0 @@
-segment_name,min_spend,max_spend,description
-VIP,500.00,999999.99,Customers spending $500 or more
-Frequent Buyer,100.00,499.99,Customers spending $100 to $500
-Bargain Hunter,0.01,99.99,Customers spending under $100
-Regular,0.00,0.00,Registered customers with no spend history
