@@ -1,5 +1,9 @@
 <div align="center">
-
+## 📊 Dashboard Preview
+Real-Time E-Commerce Analytics Live pipeline
+Syed Waseem · 2026
+Kafka · PySpark · Airflow · dbt · PostgreSQL · MinIO · Docker
+<a href="https://linkedin.com/in/syed-waseem-i-b61132216">LinkedIn</a>
 # ⚡ Real-Time E-Commerce Analytics Platform
 
 <p align="center">
