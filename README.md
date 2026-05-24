@@ -21,6 +21,9 @@ Kafka · PySpark
 
 
 ---
+## 🏗️ Pipeline Architecture
+<img width="712" height="643" alt="image" src="https://github.com/user-attachments/assets/166e3e97-8d81-40d5-9203-72fc53cf378e" />
+
 
 ## 📊 Platform at a Glance
 
