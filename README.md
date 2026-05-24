@@ -363,7 +363,7 @@ Natural keys (user email, product SKU) change over time. Surrogate integer keys 
       <b>Syed Waseem</b><br/>
       AWS Certified Data Engineer Associate (DEA-C01)<br/>
       <a href="https://github.com/syedwaseem106">GitHub</a> ·
-      <a href="YOUR_LINKEDIN_URL">LinkedIn</a>
+      <a href="<a href="https://linkedin.com/in/syed-waseem-i-b61132216">LinkedIn</a>">LinkedIn</a>
     </td>
   </tr>
 </table>
