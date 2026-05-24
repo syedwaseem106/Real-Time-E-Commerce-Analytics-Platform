@@ -34,8 +34,8 @@
 
 ## 🏗️ Pipeline Architecture
 
-![Pipeline Architecture](<img width="712" height="643" alt="Screenshot 2026-05-24 175154" src="https://github.com/user-attachments/assets/c37c9757-76bf-4276-b170-416708b5408c" />
-)
+![Pipeline Architecture]<img width="712" height="643" alt="Screenshot 2026-05-24 175154" src="https://github.com/user-attachments/assets/c37c9757-76bf-4276-b170-416708b5408c" />
+
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
