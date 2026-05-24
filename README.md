@@ -1,190 +1,391 @@
-# 🚀 Real-Time E-Commerce Analytics Data Engineering Platform
+<div align="center">
 
-[![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg?style=for-the-badge&logo=python)](https://www.python.org/)
-[![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-7.5.0-orange.svg?style=for-the-badge&logo=apachekafka)](https://kafka.apache.org/)
-[![Apache Spark](https://img.shields.io/badge/Apache%20Spark-3.5.0-red.svg?style=for-the-badge&logo=apachespark)](https://spark.apache.org/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
-[![Apache Airflow](https://img.shields.io/badge/Apache%20Airflow-2.7-green.svg?style=for-the-badge&logo=apacheairflow)](https://airflow.apache.org/)
-[![dbt Core](https://img.shields.io/badge/dbt%20Core-1.7-purple.svg?style=for-the-badge&logo=dbt)](https://www.getdbt.com/)
-[![Docker Compose](https://img.shields.io/badge/Docker%20Compose-Blue.svg?style=for-the-badge&logo=docker)](https://www.docker.com/)
+# ⚡ Real-Time E-Commerce Analytics Platform
 
-A production-style, locally runnable hybrid **Batch + Streaming Data Engineering Platform** simulating real-world e-commerce clickstream activities. This end-to-end pipeline simulates, ingests, processes, partitions, structures, orchestrates, models, and analyzes high-velocity click stream transactions to generate premium business reports.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Apache_Kafka-7.5.0-231F20?style=for-the-badge&logo=apachekafka&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Apache_Spark-3.5.0-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Apache_Airflow-2.7-017CEE?style=for-the-badge&logo=apacheairflow&logoColor=white"/>
+  <img src="https://img.shields.io/badge/dbt_Core-1.7-FF694B?style=for-the-badge&logo=dbt&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MinIO-S3_Compatible-C72E49?style=for-the-badge&logo=minio&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
+</p>
 
----
+<p align="center">
+  <b>Production-grade hybrid Batch + Streaming data engineering platform simulating real-world e-commerce clickstream events.</b><br/>
+  <i>End-to-end pipeline — Event Generation → Kafka → Spark → MinIO Data Lake → PostgreSQL → dbt → BI Exports</i>
+</p>
 
-## 📊 End-to-End System Architecture
+<p align="center">
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-architecture">Architecture</a> •
+  <a href="#️-tech-stack">Tech Stack</a> •
+  <a href="#-data-model">Data Model</a> •
+  <a href="#-bi-reports">BI Reports</a> •
+  <a href="#-engineering-decisions">Engineering Decisions</a>
+</p>
 
-```
-[User Event Generator]
-          ↓ (JSON Events)
-   [Kafka Producer]
-          ↓ (Linger & Gzip Compression)
-    [Kafka Broker] (Topic: ecommerce_events | 3 Partitions)
-          ↓ (Subscribe)
-[Spark Structured Streaming] (Watermarking, Filtering)
-          ↓ (Clean partitioned Parquet)
-   [MinIO Data Lake] (raw-events bucket on local S3)
-          ↓ (Hourly Scheduled Read)
-[Spark Batch Deduplication] (dropDuplicates)
-          ↓ (JDBC Bulk Load)
-[PostgreSQL Staging] (staging.stg_events)
-          ↓ (dbt Staging Models & Custom Macros)
-    [dbt Marts] (SCD classifications, User Aggregates)
-          ↓ (Surrogate Key Resolution Join)
-[PostgreSQL Warehouse] (Star Schema dimensional facts)
-          ↓ (Analytical Reporting Views)
-[PostgreSQL Views] (analytics.v_reports)
-          ↓ (Pandas CSV Extraction)
-  [data/exports/] (Power BI/Tableau ready CSV reports)
-```
+</div>
 
 ---
 
-## 🛠️ Technology Stack
+## 📊 Platform at a Glance
 
-| Component | Technology | Version | Purpose |
-|---|---|---|---|
-| **Programming** | Python, SQL | 3.10 | Core scripting and database query syntax. |
-| **Ingestion Broker**| Apache Kafka, Zookeeper | 7.5.0 | High-velocity streaming commit log decoupling ingestion. |
-| **Stream Processing**| PySpark Streaming | 3.5.0 | Consuming clickstreams and writing partitioned Parquet. |
-| **Batch Processing**| PySpark SQL, JDBC | 3.5.0 | Deduplicating events hourly to maintain idempotence. |
-| **Data Lake** | MinIO (S3-Compatible) | Latest | Local cloud storage staging raw/processed Parquet folders. |
-| **Data Warehouse** | PostgreSQL | 15 | Relational OLAP Star Schema warehouse storage. |
-| **Data Modeling** | dbt Core | 1.7.2 | Automated schema compilation, tests, and documentation. |
-| **Orchestration** | Apache Airflow | 2.7.3 | Multi-stage DAG orchestration and execution schedules. |
-| **Infrastructure** | Docker, Docker Compose | Latest | Standardized containerization for quick deployments. |
+| Metric | Value |
+|:--|:--|
+| 👤 Simulated Users | 1,000 (VIP / Regular / New segments) |
+| 📡 Event Types | `page_view` · `add_to_cart` · `checkout` · `purchase` · `session` |
+| 🗂️ Kafka Partitions | 3 main + 1 Dead Letter Queue |
+| 🗄️ Parquet Partitioning | `year / month / day / hour` |
+| 🔧 dbt Models | Staging views + 4 mart models |
+| 📁 BI CSV Reports | 7 Power BI / Tableau-ready exports |
+| ⏰ Orchestration | Hourly 6-stage Airflow DAG |
+| 🐳 Docker Services | 6 (Zookeeper, Kafka, Spark, PostgreSQL, MinIO, Airflow) |
 
 ---
 
-## 📁 Repository Structure
+## 🏗️ Architecture
 
 ```
-Real-Time E-Commerce Analytics Data Engineerin/
-├── docker-compose.yml       # Primary Docker orchestration configuration
-├── .env                     # Environmental credentials and port maps
-├── .gitignore               # Ignored local environments and logs
-├── Makefile                 # CLI shortcut bindings
-├── requirements.txt         # Required Python packages
-├── scripts/                 # Operational bash scripts
-│   ├── setup.sh             # Deploys containers and seeds dimensions
-│   ├── run_pipeline.sh      # Triggers local pipeline runs
-│   └── teardown.sh          # Stops compose and resets directories
-├── airflow/
-│   ├── Dockerfile           # Custom Airflow container builder
-│   └── dags/
-│       └── ecommerce_pipeline_dag.py # Hourly orchestrator DAG
-├── docker/
-│   ├── spark/
-│   │   └── Dockerfile       # PySpark image with MinIO connectors
-│   ├── kafka/
-│   │   └── init-topics.sh   # Creates Kafka primary and DLQ topics
-│   └── postgres/
-│       └── init.sql         # Seeds Postgres schemas
-├── src/
-│   ├── event_generator/     # Faker behavioral session simulations
-│   │   ├── config.py        # Funnel distributions & catalog dictionary
-│   │   ├── generator.py     # Clickstream event constructor
-│   │   └── kafka_producer.py # Decoupled Kafka streaming publisher
-│   ├── kafka/
-│   │   └── consumer.py      # Diagnostic CLI consumer
-│   ├── spark/
-│   │   ├── transformations.py # Derived metrics and time dimensions
-│   │   ├── streaming_consumer.py # Structured Streaming engine
-│   │   └── batch_processor.py # Hourly deduplicator batch script
-│   ├── warehouse/
-│   │   ├── schema.sql       # Postgres Star DDL (PK, FK, Indexes)
-│   │   ├── models.py        # SQLAlchemy mapping objects
-│   │   ├── seed_dimensions.py # Generates 1000 users and dates
-│   │   └── load_facts.py    # Surrogate keys fact loader script
-│   ├── quality/
-│   │   ├── validators.py    # Structural schemas and business rule tests
-│   │   └── filters.py       # Deduplication and outlier cleanups
-│   ├── analytics/
-│   │   ├── queries.sql      # Portfolio of 15 advanced SQL queries
-│   │   ├── create_views.sql # BI reporting views DDL
-│   │   └── export_csv.py    # Pandas report exporter script
-│   └── utils/
-│       ├── logger.py        # Structured JSON logs utility
-│       └── config.py        # Environment variables parser
-├── dbt_project/             # Complete dbt Core code directory
-│   ├── dbt_project.yml      # Model compilation materializations
-│   ├── profiles.yml         # Dev/Prod Postgres profiles
-│   ├── models/
-│   │   ├── staging/         # Cleaned staging views (stg_events, etc.)
-│   │   ├── marts/           # Relational warehouse dimensions & summaries
-│   │   └── schema.yml       # Models meta documents and test binds
-│   ├── tests/               # Custom data assertions
-│   ├── macros/              # Schema names and divide helper macros
-│   └── seeds/               # Product catalogs and segments CSVS
-├── data/
-│   ├── sample/              # Sample JSON click streams and exports
-│   └── exports/             # Output target folder of CSV BI summaries
-├── docs/
-│   ├── architecture.md      # Engineering system pathways
-│   ├── interview_prep.md    # 14 interview Q&A study guide
-│   └── resume_bullets.md    # Metrics-driven resume bullet points
-└── tests/                   # Pytest test directory
+┌──────────────────────────────────────────────────────────────────────┐
+│                        EVENT GENERATION LAYER                        │
+│                                                                      │
+│   Faker-based Behavioral Simulator                                   │
+│   ├── 1,000 synthetic users with segment profiles (VIP/Regular/New) │
+│   ├── Funnel-weighted event distribution                             │
+│   │     page_view → add_to_cart → checkout → purchase               │
+│   └── JSON event payload → Kafka Producer (Linger + GZip batch)     │
+└───────────────────────────────┬──────────────────────────────────────┘
+                                │
+                    Kafka Broker (Confluent 7.5.0)
+              Topic: ecommerce_events  |  3 partitions
+              DLQ:   ecommerce_events_dlq  (corrupt / invalid events)
+                                │
+┌───────────────────────────────▼──────────────────────────────────────┐
+│                     STREAM PROCESSING LAYER                          │
+│                                                                      │
+│   PySpark Structured Streaming (3.5.0)                               │
+│   ├── Event-time watermarking (late arrival tolerance)               │
+│   ├── Schema validation — invalid events → DLQ topic                 │
+│   ├── Derived metrics:                                               │
+│   │     engagement_score · funnel_stage · session_duration           │
+│   └── Partitioned Parquet write → MinIO data lake                   │
+│         Partition: year= / month= / day= / hour=                     │
+└───────────────────────────────┬──────────────────────────────────────┘
+                                │
+              MinIO S3-Compatible Data Lake (raw-events/)
+                                │
+┌───────────────────────────────▼──────────────────────────────────────┐
+│                      BATCH PROCESSING LAYER                          │
+│                                                                      │
+│   PySpark SQL + JDBC (hourly, triggered by Airflow)                  │
+│   ├── dropDuplicates on event_id (idempotent re-run safe)            │
+│   └── JDBC bulk load → PostgreSQL staging.stg_events                 │
+└───────────────────────────────┬──────────────────────────────────────┘
+                                │
+                PostgreSQL → staging.stg_events
+                                │
+┌───────────────────────────────▼──────────────────────────────────────┐
+│                    TRANSFORMATION LAYER  (dbt Core 1.7)              │
+│                                                                      │
+│   Staging Models              Mart Models            Seeds           │
+│   ├── stg_events              ├── dim_users           ├── products   │
+│   ├── stg_users               ├── dim_products        └── segments   │
+│   └── stg_products            ├── dim_date                           │
+│                               ├── fct_events (SCD)                   │
+│                               └── agg_user_summary                   │
+│                                                                      │
+│   Tests: unique · not_null · accepted_values · referential integrity │
+└───────────────────────────────┬──────────────────────────────────────┘
+                                │
+┌───────────────────────────────▼──────────────────────────────────────┐
+│                    WAREHOUSE LAYER  (Star Schema)                    │
+│                                                                      │
+│   dim_users ──┐                                                      │
+│   dim_products┼──► fct_events ◄── dim_date                          │
+│   dim_segments┘         │                                            │
+│                         └──► analytics.v_reports (15 SQL queries)   │
+└───────────────────────────────┬──────────────────────────────────────┘
+                                │
+┌───────────────────────────────▼──────────────────────────────────────┐
+│                         REPORTING LAYER                              │
+│                                                                      │
+│   Pandas CSV Exporter → data/exports/ → Power BI / Tableau          │
+│   7 business reports: executive · daily sales · products ·           │
+│   categories · user segments · conversion funnel · hourly traffic   │
+└──────────────────────────────────────────────────────────────────────┘
+
+  Orchestration: Apache Airflow 2.7 — hourly 6-stage DAG with retry handling
+  Infrastructure: Docker Compose — single-command full stack deployment
 ```
 
 ---
 
-## ⚡ Quick Start Instructions
+## 🛠️ Tech Stack
 
-Deploy and execute the entire containerized platform in 3 simple commands:
+| Layer | Technology | Version | Purpose |
+|:--|:--|:--|:--|
+| **Language** | Python · SQL | 3.10 | Core pipeline scripting and analytics |
+| **Message Broker** | Apache Kafka + Zookeeper | 7.5.0 | Decoupled high-velocity streaming commit log |
+| **Stream Processing** | PySpark Structured Streaming | 3.5.0 | Real-time event consumption and Parquet writes |
+| **Batch Processing** | PySpark SQL + JDBC | 3.5.0 | Hourly deduplication and warehouse loading |
+| **Data Lake** | MinIO (S3-compatible) | Latest | Local cloud-style object storage for raw Parquet |
+| **Data Warehouse** | PostgreSQL | 15 | Star schema OLAP relational storage |
+| **Transformation** | dbt Core | 1.7.2 | Staging, mart models, tests, and lineage docs |
+| **Orchestration** | Apache Airflow | 2.7.3 | Scheduled DAG execution, retries, monitoring |
+| **Infrastructure** | Docker + Docker Compose | Latest | Fully containerized single-command deployment |
 
-### Step 1: Pre-configurations
-Ensure Docker Desktop is running and healthy on your system. 
+---
 
-### Step 2: Spin Up and Bootstrap
-Run the setup script inside Git Bash or terminal:
+## ⚡ Quick Start
+
+> **Prerequisites:** Docker Desktop · Git Bash or a Unix-compatible terminal
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/syedwaseem106/Real-Time-E-Commerce-Analytics-Platform.git
+cd Real-Time-E-Commerce-Analytics-Platform
+```
+
+### 2. Bootstrap the full platform
 ```bash
 ./scripts/setup.sh
 ```
-This script will build custom containers, spin up Zookeeper, Kafka, Postgres, MinIO, Spark, and Airflow, establish topics, create database schemas, and pre-seed dimensions (creating 1000 fake user accounts, date spines, and product catalogs).
+Builds all custom Docker images and spins up Zookeeper, Kafka, MinIO, Spark, PostgreSQL, and Airflow. Creates Kafka topics, initializes the database schema, and seeds 1,000 synthetic users, a 2024–2026 date spine, and the product catalog.
 
-### Step 3: Execute the Data Pipeline
-Run the integration script:
+### 3. Run the end-to-end pipeline
 ```bash
 ./scripts/run_pipeline.sh
 ```
-This script submits the Structured Streaming consumer, runs simulated click traffic, triggers Spark batch deduplications, builds staging/marts views via dbt Core, loads PostgreSQL surrogate fact keys, and generates CSV reports.
+Launches Structured Streaming, generates clickstream traffic, runs Spark batch deduplication, executes dbt builds, loads surrogate fact keys into PostgreSQL, and exports all 7 BI reports to `data/exports/`.
+
+### 4. Access running services
+
+| Service | URL | Credentials |
+|:--|:--|:--|
+| 🌬️ Airflow UI | http://localhost:8080 | `airflow` / `airflow` |
+| 🪣 MinIO Console | http://localhost:9001 | `minioadmin` / `minioadmin` |
+| ⚡ Spark UI | http://localhost:4040 | — |
+| 🐘 pgAdmin | http://localhost:5050 | `admin@admin.com` / `admin` |
 
 ---
 
-## 📈 Dashboard CSV Export Reports
+## 📁 Project Structure
 
-Once `run_pipeline.sh` finishes, you can locate clean, aggregated data reports ready for Power BI or Tableau inside [data/exports/](file:///c:/Users/Syed%20Waseem/OneDrive/Desktop/DE%20Projects/Real-Time%20E-Commerce%20Analytics%20Data%20Engineerin/data/exports/):
-
-* `executive_summary_report.csv` — Gross revenues, visits, transaction counts, and basket sizes.
-* `daily_sales_report.csv` — Rollups of order volume, revenue totals, units, and day-over-day growth.
-* `product_performance_report.csv` — Ordered item units, categories, views, and product-specific sales.
-* `category_revenue_report.csv` — Combined revenue aggregates grouped by product categories.
-* `user_segments_report.csv` — Spend analysis metrics segmented by user status (VIP, Regular, etc.).
-* `conversion_funnel_report.csv` — Drop-off percentages through the browsing-to-payment funnel.
-* `hourly_traffic_report.csv` — Active peak hours of the day.
+```
+real-time-ecommerce-analytics/
+│
+├── docker-compose.yml               # Full 6-service orchestration
+├── .env                             # Credentials and port configuration
+├── Makefile                         # CLI shortcuts (make setup, make run, etc.)
+├── requirements.txt                 # Python dependencies
+│
+├── scripts/
+│   ├── setup.sh                     # Bootstrap all containers + seed data
+│   ├── run_pipeline.sh              # End-to-end pipeline trigger
+│   └── teardown.sh                  # Clean shutdown and volume reset
+│
+├── docker/
+│   ├── spark/Dockerfile             # PySpark image with MinIO S3 connectors
+│   ├── kafka/init-topics.sh         # Creates ecommerce_events + DLQ topics
+│   └── postgres/init.sql            # PostgreSQL schema initialization
+│
+├── airflow/
+│   ├── Dockerfile                   # Custom Airflow image
+│   └── dags/
+│       └── ecommerce_pipeline_dag.py  # 6-stage hourly orchestration DAG
+│
+├── src/
+│   ├── event_generator/
+│   │   ├── config.py                # Funnel distributions, product catalog
+│   │   ├── generator.py             # Faker-based clickstream constructor
+│   │   └── kafka_producer.py        # Kafka publisher with GZip batching
+│   │
+│   ├── spark/
+│   │   ├── streaming_consumer.py    # Structured Streaming engine
+│   │   ├── batch_processor.py       # Hourly deduplication Spark job
+│   │   └── transformations.py       # Derived metrics, time dimensions
+│   │
+│   ├── warehouse/
+│   │   ├── schema.sql               # PostgreSQL DDL (PKs, FKs, indexes)
+│   │   ├── models.py                # SQLAlchemy ORM mappings
+│   │   ├── seed_dimensions.py       # Seeds 1,000 users + date spine + products
+│   │   └── load_facts.py            # Surrogate key resolution + fact load
+│   │
+│   ├── quality/
+│   │   ├── validators.py            # Payload schema + business rule checks
+│   │   └── filters.py               # Deduplication and outlier removal
+│   │
+│   └── analytics/
+│       ├── queries.sql              # 15 advanced analytical SQL queries
+│       ├── create_views.sql         # BI reporting view DDL
+│       └── export_csv.py            # Pandas CSV export script
+│
+├── dbt_project/
+│   ├── dbt_project.yml              # Materialization config
+│   ├── profiles.yml                 # Dev/Prod PostgreSQL profiles
+│   ├── models/
+│   │   ├── staging/                 # stg_events, stg_users, stg_products
+│   │   ├── marts/                   # dim_*, fct_events, agg_user_summary
+│   │   └── schema.yml               # Model tests, docs, and metadata
+│   ├── macros/                      # Custom Jinja macros
+│   ├── tests/                       # Custom dbt data assertions
+│   └── seeds/                       # Product catalog and segment CSVs
+│
+└── data/
+    ├── sample/                      # Sample event JSON payloads
+    └── exports/                     # BI-ready CSV output folder
+```
 
 ---
 
-## 🔍 Data Quality, Governance & Observability
+## 🗄️ Data Model — Star Schema
 
-Production data engineering requires strict quality assurance and telemetry. This platform implements:
-* **Schema Validation & Typing:** Enforces that click payloads have required fields, non-null user keys, and correct transaction quantities.
-* **Dead Letter Queue (DLQ):** Diverts corrupt or negative transactions to `ecommerce_events_dlq` to protect active pipelines.
-* **Idempotency (At-Least-Once):** Employs daily Spark batch deduplication on `event_id` and database surrogate merges using SQL `LEFT JOIN` checks during loading, preventing duplicated metrics if runs overlap.
-* **dbt Assertions:** Executes unique constraints, non-null validators, accepted values, and referential checks across staging and dimensional tables.
-* **Observability (JSON logging):** Employs structured JSON logs with timing execution tags (`pipeline_name`, `step`, `row_count`, `duration_seconds`) to monitor job health.
+### Dimension Tables
+
+| Table | Key Columns | Description |
+|:--|:--|:--|
+| `dim_users` | `user_id (PK)`, `segment`, `created_at` | 1,000 synthetic users with VIP / Regular / New segments |
+| `dim_products` | `product_id (PK)`, `category`, `price` | 50+ products across categories |
+| `dim_date` | `date_id (PK)`, `year`, `month`, `week`, `day_of_week` | Full 2024–2026 date spine |
+| `dim_segments` | `segment_id (PK)`, `segment_name`, `tier` | User tier classifications |
+
+### Fact Table — `fct_events`
+
+| Column | Type | Notes |
+|:--|:--|:--|
+| `event_id` | `VARCHAR (PK)` | Deduplicated unique event identifier |
+| `user_id` | `INT (FK)` | Resolves to `dim_users` surrogate key |
+| `product_id` | `INT (FK)` | Resolves to `dim_products` surrogate key |
+| `date_id` | `INT (FK)` | Resolves to `dim_date` surrogate key |
+| `event_type` | `VARCHAR` | `page_view` / `add_to_cart` / `checkout` / `purchase` |
+| `session_id` | `VARCHAR` | Groups events into user sessions |
+| `quantity` | `INT` | Units per transaction event |
+| `revenue` | `DOUBLE PRECISION` | Derived: `quantity × product price` |
+| `funnel_stage` | `INT` | 1–4 numeric funnel position |
+| `created_at` | `TIMESTAMP` | Event timestamp with timezone |
 
 ---
 
-## 💼 Resume & Interview Ready
+## 📈 BI Report Exports
 
-This project is explicitly modeled to help you clear technical challenges and architectural design rounds at tier-1 cloud and product companies:
-* **ATS Resume Points:** Copy and adapt metrics-driven resume bullets located inside [docs/resume_bullets.md](file:///c:/Users/Syed%20Waseem/OneDrive/Desktop/DE%20Projects/Real-Time%20E-Commerce%20Analytics%20Data%20Engineerin/docs/resume_bullets.md).
-* **Technical Question Vault:** Study comprehensive explanations regarding watermarking, idempotence, star schemas, partition strategies, and scaling to 100x volume inside [docs/interview_prep.md](file:///c:/Users/Syed%20Waseem/OneDrive/Desktop/DE%20Projects/Real-Time%20E-Commerce%20Analytics%20Data%20Engineerin/docs/interview_prep.md).
-* **System Diagrams:** Check clean system design workflows and Kimball diagrams inside [docs/architecture.md](file:///c:/Users/Syed%20Waseem/OneDrive/Desktop/DE%20Projects/Real-Time%20E-Commerce%20Analytics%20Data%20Engineerin/docs/architecture.md).
+After `run_pipeline.sh` completes, Power BI / Tableau-ready CSVs land in `data/exports/`:
+
+| Report File | Description |
+|:--|:--|
+| `executive_summary_report.csv` | Gross revenue, visits, transaction counts, and basket sizes |
+| `daily_sales_report.csv` | Order volume, daily revenue, units sold, and day-over-day growth |
+| `product_performance_report.csv` | Units sold, views, and revenue per product |
+| `category_revenue_report.csv` | Revenue aggregated by product category |
+| `user_segments_report.csv` | Spend metrics segmented by user tier (VIP, Regular, New) |
+| `conversion_funnel_report.csv` | Drop-off rates across browse → cart → checkout → payment |
+| `hourly_traffic_report.csv` | Active session volume by hour of day |
 
 ---
 
-## 📄 License & Contributions
+## 🔍 SQL Analytics — Sample Query
 
-Licensed under the MIT License. Contributions and PRs are welcome!
+15 analytical queries live in `src/analytics/queries.sql`, covering funnel drop-off, revenue by segment, hourly traffic peaks, product conversion rates, repeat purchase analysis, and day-over-day growth.
+
+```sql
+-- Conversion funnel drop-off analysis
+SELECT
+    funnel_stage,
+    event_type,
+    COUNT(*)                                             AS event_count,
+    ROUND(
+        100.0 * COUNT(*) / FIRST_VALUE(COUNT(*)) OVER (
+            ORDER BY funnel_stage
+        ), 2
+    )                                                    AS funnel_pct
+FROM fct_events
+GROUP BY funnel_stage, event_type
+ORDER BY funnel_stage;
+```
+
+---
+
+## 🔒 Data Quality & Observability
+
+| Practice | Implementation |
+|:--|:--|
+| **Schema Validation** | Enforces required fields, non-null user keys, and valid quantities on every Kafka event |
+| **Dead Letter Queue** | Malformed or out-of-range events route to `ecommerce_events_dlq` — main pipeline stays clean |
+| **Idempotency** | Spark deduplicates on `event_id`; fact loader uses `LEFT JOIN` guard to block duplicate inserts on re-run |
+| **dbt Tests** | `unique`, `not_null`, `accepted_values`, and referential integrity tests on every model build |
+| **Structured Logging** | JSON logs with `pipeline_name`, `step`, `row_count`, and `duration_seconds` on every job execution |
+
+---
+
+## 💡 Engineering Decisions
+
+<details>
+<summary><b>Why Kafka over writing directly to the database?</b></summary>
+
+Kafka decouples producers from consumers, absorbs traffic spikes without data loss, and enables event replay for late arrivals or pipeline failures — critical for at-least-once delivery guarantees.
+</details>
+
+<details>
+<summary><b>Why Parquet partitioned by time on MinIO?</b></summary>
+
+Columnar Parquet with `year/month/day/hour` partitioning enables partition pruning in both Spark Streaming writes and hourly batch reads, cutting scan cost as data volume grows.
+</details>
+
+<details>
+<summary><b>Why dbt for transformations instead of raw SQL scripts?</b></summary>
+
+Version-controlled, testable, self-documenting models with full lineage graphs. Staging → mart separation mirrors how professional data teams manage transformation layers. dbt tests catch data contract breaks automatically.
+</details>
+
+<details>
+<summary><b>Why MinIO instead of a real S3 bucket?</b></summary>
+
+Identical S3-compatible API at zero cost. The same Spark S3A connector and boto3 code runs unchanged when deployed to AWS — no production code changes needed.
+</details>
+
+<details>
+<summary><b>Why surrogate key resolution on fact load?</b></summary>
+
+Natural keys (user email, product SKU) change over time. Surrogate integer keys resolve this and enable SCD (Slowly Changing Dimension) tracking in dbt mart models.
+</details>
+
+---
+
+## 🗺️ Planned Enhancements
+
+- [ ] AWS S3 as production data lake (replace MinIO for cloud deployment)
+- [ ] Redshift or Snowflake as cloud warehouse
+- [ ] Incremental dbt models (process only new hourly partitions)
+- [ ] Data quality checks with Great Expectations
+- [ ] CI/CD pipeline with GitHub Actions for dbt test automation
+- [ ] Grafana dashboard wired to PostgreSQL for live pipeline monitoring
+- [ ] Kafka Schema Registry with Avro for enforced event contracts
+
+---
+
+## 👤 Author
+
+<table>
+  <tr>
+    <td align="center">
+      <b>Syed Waseem</b><br/>
+      AWS Certified Data Engineer Associate (DEA-C01)<br/>
+      <a href="https://github.com/syedwaseem106">GitHub</a> ·
+      <a href="YOUR_LINKEDIN_URL">LinkedIn</a>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — contributions and pull requests are welcome.
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ using Apache Kafka · Spark · Airflow · dbt · PostgreSQL · MinIO · Docker</sub>
+</div>
